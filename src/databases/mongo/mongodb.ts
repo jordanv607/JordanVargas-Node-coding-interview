@@ -45,4 +45,13 @@ export class MongoStrategy extends Database {
     public async getFlights() {
         return FlightsModel.find({});
     }
+
+    public async addFlight(flight: {
+        code: string;
+        origin: string;
+        destination: string;
+        status: string;
+    }) {
+        return FlightsModel.create(flight);
+    }
 }

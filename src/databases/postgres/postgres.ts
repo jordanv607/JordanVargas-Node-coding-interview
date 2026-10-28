@@ -15,7 +15,7 @@ export class PostgreStrategy extends Database {
 
         db.public.many(`
             CREATE TABLE flights (
-                code VARCHAR(5) PRIMARY KEY,
+                code VARCHAR(50) PRIMARY KEY,
                 origin VARCHAR(50),
                 destination VARCHAR(50),
                 status VARCHAR(50)
@@ -44,8 +44,9 @@ export class PostgreStrategy extends Database {
         destination: string;
         status: string;
     }) {
-        return PostgreStrategy._instance.public.many(
-            `INSERT INTO flights (code, origin, destination, status) VALUES ('${flight.code}', '${flight.origin}', '${flight.destination}', '${flight.status}')`,
+        const result = PostgreStrategy._instance.public.many(
+            `INSERT INTO flights (code, origin, destination, status) VALUES ('${flight.code}', '${flight.origin}', '${flight.destination}', '${flight.status}') RETURNING *`,
         );
+        return result[0];
     }
 }
